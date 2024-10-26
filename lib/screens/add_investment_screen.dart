@@ -22,7 +22,7 @@ class _AddInvestmentScreenState extends State<AddInvestmentScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        elevation: 0,
+        centerTitle: true,
         backgroundColor: Colors.white,
         title: const Text(
           'Add Investment',
