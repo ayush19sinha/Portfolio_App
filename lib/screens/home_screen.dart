@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../config/theme.dart';
 import '../providers/investment_provider.dart';
 import 'add_investment_screen.dart';
 import 'investment_details_screen.dart';
@@ -11,13 +12,15 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
-        title: const Text(
+        elevation: 0,
+        title: Text(
           'MyPortfolio',
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
         ),
       ),
       body: Consumer<InvestmentProvider>(
@@ -35,7 +38,6 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Stats Cards Row
                     Row(
                       children: [
                         Expanded(
@@ -43,15 +45,12 @@ class HomeScreen extends StatelessWidget {
                             'Total Portfolio Value',
                             '\$${provider.totalPortfolioValue.toStringAsFixed(2)}',
                             Icons.account_balance_wallet,
-                            Colors.blue,
+                            AppColors.primaryBlue,
                           ),
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 24),
-
-                    // Main Content Grid
                     LayoutBuilder(
                       builder: (context, constraints) {
                         if (constraints.maxWidth > 800) {
@@ -90,10 +89,9 @@ class HomeScreen extends StatelessWidget {
         builder: (context, provider, _) => Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.grey.withOpacity(0.05),
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, -1),
@@ -123,20 +121,20 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AddInvestmentScreen()),
           );
         },
-        child: const Icon(Icons.add, color: Colors.white,),
+        child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildStatsCard(String title, String value, IconData icon, Color color) {
     return Card(
+      elevation: 0,
       child: Container(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -147,9 +145,9 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               title,
-              style: TextStyle(
-                color: Colors.grey[600],
+              style: const TextStyle(
                 fontSize: 14,
+                color: AppColors.textSecondary,
               ),
             ),
             const SizedBox(height: 4),
@@ -158,6 +156,7 @@ class HomeScreen extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
               ),
             ),
           ],
@@ -165,8 +164,10 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildChartSection(InvestmentProvider provider) {
     return Card(
+      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -177,6 +178,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
@@ -209,6 +211,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildInvestmentsList(InvestmentProvider provider, BuildContext context) {
     return Card(
+      elevation: 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -222,10 +225,12 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline),
+                  color: AppColors.primaryBlue,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -236,7 +241,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: Colors.grey.withOpacity(0.1)),
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -280,13 +285,14 @@ class HomeScreen extends StatelessWidget {
                               investment.name,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Text(
                               '\$${investment.currentValue.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                color: Colors.grey[600],
+                              style: const TextStyle(
                                 fontSize: 13,
+                                color: AppColors.textSecondary,
                               ),
                             ),
                           ],
@@ -296,21 +302,21 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Icon(
                             isProfit ? Icons.trending_up : Icons.trending_down,
-                            color: isProfit ? Colors.green : Colors.red,
+                            color: isProfit ? AppColors.profitGreen : AppColors.lossRed,
                             size: 16,
                           ),
                           const SizedBox(width: 4),
                           Text(
                             '$percentageChange%',
                             style: TextStyle(
-                              color: isProfit ? Colors.green : Colors.red,
+                              color: isProfit ? AppColors.profitGreen : AppColors.lossRed,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           const SizedBox(width: 8),
                           Icon(
                             Icons.chevron_right,
-                            color: Colors.grey[400],
+                            color: Colors.grey.withOpacity(0.4),
                             size: 20,
                           ),
                         ],
@@ -353,7 +359,7 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   child: Text(
                     '${investment.name} ($percentage%)',
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -369,8 +375,7 @@ class HomeScreen extends StatelessWidget {
     return provider.investments.asMap().entries.map((entry) {
       final index = entry.key;
       final investment = entry.value;
-      final percentage =
-          (investment.currentValue / provider.totalPortfolioValue) * 100;
+      final percentage = (investment.currentValue / provider.totalPortfolioValue) * 100;
 
       return PieChartSectionData(
         color: _getColor(index),
@@ -387,20 +392,6 @@ class HomeScreen extends StatelessWidget {
   }
 
   Color _getColor(int index) {
-    final colors = [
-      Colors.blue,
-      Colors.red,
-      Colors.green,
-      Colors.orange,
-      Colors.purple,
-      Colors.teal,
-      Colors.pink,
-      Colors.amber,
-      Colors.indigo,
-      Colors.cyan,
-      Colors.brown,
-      Colors.deepOrange,
-    ];
-    return colors[index % colors.length];
+    return AppColors.investmentColors[index % AppColors.investmentColors.length];
   }
 }

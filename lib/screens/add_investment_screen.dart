@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/investment.dart';
 import '../providers/investment_provider.dart';
 import 'package:uuid/uuid.dart';
+import '../config/theme.dart';
 
 class AddInvestmentScreen extends StatefulWidget {
   const AddInvestmentScreen({super.key});
@@ -20,16 +21,11 @@ class _AddInvestmentScreenState extends State<AddInvestmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.surface,
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Add Investment',
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
-        ),
+        title: const Text('Add Investment'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -42,17 +38,12 @@ class _AddInvestmentScreenState extends State<AddInvestmentScreen> {
               children: [
                 Container(
                   width: double.infinity,
-                  color: Colors.white,
+                  color: AppColors.surface,
                   padding: const EdgeInsets.all(20),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Card(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: Colors.grey.shade200),
-                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Column(
@@ -117,7 +108,7 @@ class _AddInvestmentScreenState extends State<AddInvestmentScreen> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.surface,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.1),
@@ -134,18 +125,17 @@ class _AddInvestmentScreenState extends State<AddInvestmentScreen> {
             child: ElevatedButton(
               onPressed: _saveInvestment,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: AppColors.primaryBlue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
                 elevation: 0,
               ),
-              child: const Text(
+              child: Text(
                 'Save Investment',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: AppColors.surface,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -168,42 +158,41 @@ class _AddInvestmentScreenState extends State<AddInvestmentScreen> {
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.grey[700],
-          ),
+          style: Theme.of(context).textTheme.labelMedium,
         ),
         const SizedBox(height: 8),
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
           validator: validator,
+          style: Theme.of(context).textTheme.bodyMedium,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            prefixIcon: Icon(prefixIcon, color: Colors.black),
+            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: AppColors.textSecondary,
+            ),
+            prefixIcon: Icon(prefixIcon, color: AppColors.textPrimary),
             filled: true,
-            fillColor: Colors.grey[100],
+            fillColor: AppColors.surface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: Colors.grey.withOpacity(0.2)),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: Colors.grey.withOpacity(0.2)),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.blue, width: 1),
+              borderSide: BorderSide(color: AppColors.primaryBlue),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderSide: BorderSide(color: AppColors.lossRed),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderSide: BorderSide(color: AppColors.lossRed),
             ),
           ),
         ),

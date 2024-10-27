@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/investment.dart';
 import '../providers/investment_provider.dart';
+import '../config/theme.dart';
 
 class InvestmentDetailsScreen extends StatelessWidget {
   final Investment investment;
@@ -22,12 +23,12 @@ class InvestmentDetailsScreen extends StatelessWidget {
           builder: (context, setState) {
             return AlertDialog(
               title: const Text('Delete Investment'),
-              content: Text('Are you sure you want to delete ${investment.name}?'),
+              content: Text(
+                  'Are you sure you want to delete ${investment.name}?'),
               actions: [
                 TextButton(
-                  onPressed: isDeleting
-                      ? null
-                      : () => Navigator.of(context).pop(),
+                  onPressed: isDeleting ? null : () =>
+                      Navigator.of(context).pop(),
                   child: const Text('Cancel'),
                 ),
                 TextButton(
@@ -36,7 +37,8 @@ class InvestmentDetailsScreen extends StatelessWidget {
                       : () async {
                     setState(() => isDeleting = true);
 
-                    await Provider.of<InvestmentProvider>(context, listen: false)
+                    await Provider.of<InvestmentProvider>(
+                        context, listen: false)
                         .deleteInvestment(investment.id);
 
                     if (context.mounted) {
@@ -51,7 +53,7 @@ class InvestmentDetailsScreen extends StatelessWidget {
                     }
                   },
                   style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.error,
+                    foregroundColor: AppColors.lossRed,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -63,7 +65,7 @@ class InvestmentDetailsScreen extends StatelessWidget {
                           margin: const EdgeInsets.only(right: 8),
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Theme.of(context).colorScheme.error,
+                            color: AppColors.lossRed,
                           ),
                         ),
                       const Text('Delete'),
@@ -80,8 +82,6 @@ class InvestmentDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -89,7 +89,7 @@ class InvestmentDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_outline),
-            color: theme.colorScheme.error,
+            color: AppColors.lossRed,
             onPressed: () => _showDeleteConfirmation(context),
           ),
         ],
@@ -112,20 +112,23 @@ class InvestmentDetailsScreen extends StatelessWidget {
                       const SizedBox(height: 8),
                       DetailRow(
                         label: 'Amount Invested',
-                        value: '\$${investment.amountInvested.toStringAsFixed(2)}',
+                        value: '\$${investment.amountInvested.toStringAsFixed(
+                            2)}',
                       ),
                       const SizedBox(height: 8),
                       DetailRow(
                         label: 'Current Value',
-                        value: '\$${investment.currentValue.toStringAsFixed(2)}',
+                        value: '\$${investment.currentValue.toStringAsFixed(
+                            2)}',
                       ),
                       const SizedBox(height: 8),
                       DetailRow(
                         label: 'Growth',
-                        value: '${investment.growthPercentage.toStringAsFixed(2)}%',
+                        value: '${investment.growthPercentage.toStringAsFixed(
+                            2)}%',
                         valueColor: investment.growthPercentage >= 0
-                            ? Colors.green
-                            : Colors.red,
+                            ? AppColors.profitGreen
+                            : AppColors.lossRed,
                       ),
                     ],
                   ),
@@ -154,6 +157,7 @@ class InvestmentDetailsScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
@@ -161,16 +165,8 @@ class InvestmentDetailsScreen extends StatelessWidget {
               label: 'Total Gain/Loss',
               value: '\$${gainLoss.toStringAsFixed(2)}',
               valueColor: gainLoss >= 0
-                  ? Colors.green
-                  : Colors.red,
-            ),
-            const SizedBox(height: 8),
-            DetailRow(
-              label: 'Return on Investment',
-              value: '${(investment.growthPercentage).toStringAsFixed(2)}%',
-              valueColor: investment.growthPercentage >= 0
-                  ? Colors.green
-                  : Colors.red,
+                  ? AppColors.profitGreen
+                  : AppColors.lossRed,
             ),
           ],
         ),
@@ -204,6 +200,7 @@ class DetailRow extends StatelessWidget {
             label,
             style: theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w500,
+              color: AppColors.textSecondary,
             ),
           ),
           Text(
