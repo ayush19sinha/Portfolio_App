@@ -14,7 +14,8 @@ My Portfolio App is a Flutter-based mobile application that allows users to trac
 
 
 
-https://github.com/user-attachments/assets/6b6901c1-c544-4a80-9f9c-27a49bf80fec
+https://github.com/user-attachments/assets/2b95fcdf-1823-436d-b54f-b268624b2622
+
 
 
 
